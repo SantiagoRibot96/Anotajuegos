@@ -8,7 +8,7 @@ export default function Index() {
 
   return (
     <View style={[styles.container, themeContainerStyle]}>
-      <Text style={[styles.text, themeTextStyle]}>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={[styles.text, themeTextStyle]}>HomeScreen</Text>
     </View>
   );
 }

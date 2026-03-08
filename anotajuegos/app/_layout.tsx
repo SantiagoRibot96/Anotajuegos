@@ -1,6 +1,17 @@
-import { Background } from "@react-navigation/elements";
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, Tabs } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
+
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function RootLayout() {
-  return <Tabs />;
+  const colorScheme = useColorScheme()
+
+  return (
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>);
 }
