@@ -1,37 +1,14 @@
-import { Text, View, StyleSheet, useColorScheme } from "react-native";
+import { Text, Image } from "react-native";
+import { useTheme } from "../../context/ThemeContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-  const colorScheme = useColorScheme();
-
-  const themeTextStyle = colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
-  const themeContainerStyle = colorScheme === 'light' ? styles.lightThemeContainer : styles.darkThemeContainer;
+  const theme = useTheme();
 
   return (
-    <View style={[styles.container, themeContainerStyle]}>
-      <Text style={[styles.text, themeTextStyle]}>HomeScreen</Text>
-    </View>
+    <SafeAreaView style={{backgroundColor: theme.background, alignItems: "center", justifyContent: "center", flex: 1}}>
+      <Image source={require('../../assets/images/adaptive-icon.png')} style={{width: 200, height: 200, borderRadius: 10}}/>
+      <Text style={{fontSize: 30, color: theme.text}}>AnotaJuegos</Text>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    fontSize: 20,
-  },
-  lightThemeContainer: {
-    backgroundColor: '#F6F7F9',
-  },
-  lightThemeText: {
-    color: '#1F2933',
-  },
-  darkThemeContainer: {
-    backgroundColor: '#121417',
-  },
-  darkThemeText: {
-    color: '#F3F4F6',
-  },
-});

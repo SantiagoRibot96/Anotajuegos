@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#121417",
         "foregroundImage": "./assets/images/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
@@ -31,10 +31,10 @@
           "image": "./assets/images/ios-light.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#232323",
+          "backgroundColor": "#F6F7F9",
           "dark": {
             "image": "./assets/images/ios-dark.png",
-            "backgroundColor": "#000000"
+            "backgroundColor": "#121417"
           }
         }
       ]
