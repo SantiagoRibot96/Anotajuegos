@@ -4,7 +4,7 @@ import { Colors } from "../constants/colors";
 
 type Theme = typeof Colors.light;
 
-const ThemeContext = createContext<Theme>(Colors.light);
+export const ThemeContext = createContext<Theme>(Colors.light);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const scheme = useColorScheme();
@@ -17,5 +17,3 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     </ThemeContext.Provider>
   );
 };
-
-export const useTheme = () => useContext(ThemeContext);

@@ -9,6 +9,7 @@ export const Colors = {
     primary: "#1F7A63",
     secondary: "#3FAF8E",
     accent: "#F2C94C",
+    finish: "#4c78f2",
   },
   dark: {
     background: "#121417",
@@ -20,5 +21,6 @@ export const Colors = {
     primary: "#3FAF8E",
     secondary: "#145A4A",
     accent: "#F2C94C",
+    finish: "#4c78f2",
   },
 };

@@ -3,14 +3,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../hooks/themeHook";
 import { usePuntaje } from "../../hooks/scoreHook";
 
-const Generala = () => {
+const Ajedrez = () => {
   const theme = useTheme();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-      <Text style={{ fontSize: 30, color: theme.text }}>Generala</Text>
+      <Text style={{ fontSize: 30, color: theme.text }}>Ajedrez</Text>
     </SafeAreaView>
   );
 };
 
-export default Generala;
+export default Ajedrez;
