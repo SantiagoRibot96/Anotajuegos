@@ -4,6 +4,7 @@ import { Alert, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../hooks/themeHook";
 import { usePuntaje } from "../../hooks/scoreHook";
+import { milMillas, puntajeMilMillas } from "../../constants/milMillas";
 
 const MilMillas = () => {
   const theme = useTheme();
@@ -43,38 +44,27 @@ const MilMillas = () => {
   return (
     <SafeAreaView
       style={{
-        flex: 1,
-        flexDirection: "column",
+        ...milMillas.contenedor,
         backgroundColor: theme.background,
-        justifyContent: "space-evenly",
       }}
     >
       <View>
         <View
           style={{
-            flexDirection: "row",
+            ...milMillas.filas,
             backgroundColor: theme.secondary,
-            flexWrap: "wrap",
-            alignItems: "center",
-            width: "100%",
           }}
         >
           <View
             style={{
-              width: "31%",
-              height: 45,
+              ...milMillas.columna1,
               borderColor: theme.border,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
             <Text
               style={{
-                fontSize: 16,
+                ...milMillas.columna1_texto,
                 color: theme.text,
-                textAlign: "center",
-                fontWeight: "bold",
               }}
             >
               Jugadores
@@ -83,13 +73,9 @@ const MilMillas = () => {
           <TextInput
             key={`a1-${resetKey2}`}
             style={{
-              fontSize: 16,
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               color: theme.text,
               borderColor: theme.border,
-              borderWidth: 1,
-              textAlign: "center",
             }}
             placeholder="Equipo 1"
             returnKeyType="done"
@@ -97,13 +83,9 @@ const MilMillas = () => {
           <TextInput
             key={`a2-${resetKey2}`}
             style={{
-              fontSize: 16,
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               color: theme.text,
               borderColor: theme.border,
-              borderWidth: 1,
-              textAlign: "center",
             }}
             placeholder="Equipo 2"
             returnKeyType="done"
@@ -111,52 +93,39 @@ const MilMillas = () => {
           <TextInput
             key={`a3-${resetKey2}`}
             style={{
-              fontSize: 16,
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               color: theme.text,
               borderColor: theme.border,
-              borderWidth: 1,
-              textAlign: "center",
             }}
             placeholder="Equipo 3"
             returnKeyType="done"
           />
         </View>
 
-        <BotonFilas key={`b1-${resetKey}`} titulo="Viaje Completo" valor={200}></BotonFilas>
+        <BotonFilas key={`b1-${resetKey}`} titulo="Viaje_completo" valor={puntajeMilMillas.Viaje_Completo}></BotonFilas>
 
-        <BotonFilas key={`b2-${resetKey}`} titulo="Accion Retardada" valor={200}></BotonFilas>
+        <BotonFilas key={`b2-${resetKey}`} titulo="Accion_demorada" valor={puntajeMilMillas.Accion_demorada}></BotonFilas>
 
-        <BotonFilas key={`b3-${resetKey}`} titulo="Bloqueo" valor={200}></BotonFilas>
+        <BotonFilas key={`b3-${resetKey}`} titulo="Bloqueo" valor={puntajeMilMillas.Bloqueo}></BotonFilas>
 
-        <BotonFilas key={`b4-${resetKey}`} titulo="Viaje Seguro" valor={200}></BotonFilas>
+        <BotonFilas key={`b4-${resetKey}`} titulo="Viaje_seguro" valor={puntajeMilMillas.Viaje_Seguro}></BotonFilas>
 
         <View
           style={{
-            flexDirection: "row",
+            ...milMillas.filas,
             backgroundColor: theme.primary,
-            flexWrap: "wrap",
-            alignItems: "center",
-            width: "100%",
           }}
         >
           <View
             style={{
-              width: "31%",
-              height: 45,
+              ...milMillas.columna1,
               borderColor: theme.border,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
             <Text
               style={{
-                fontSize: 16,
+                ...milMillas.columna1_texto,
                 color: theme.text,
-                textAlign: "center",
-                fontWeight: "bold",
               }}
             >
               Recorrido
@@ -165,13 +134,9 @@ const MilMillas = () => {
           <TextInput
             key={`b9-${resetKey}`}
             style={{
-              fontSize: 16,
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               color: theme.text,
               borderColor: theme.border,
-              borderWidth: 1,
-              textAlign: "center",
             }}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -181,13 +146,9 @@ const MilMillas = () => {
           <TextInput
             key={`b10-${resetKey}`}
             style={{
-              fontSize: 16,
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               color: theme.text,
               borderColor: theme.border,
-              borderWidth: 1,
-              textAlign: "center",
             }}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -197,13 +158,9 @@ const MilMillas = () => {
           <TextInput
             key={`b11-${resetKey}`}
             style={{
-              fontSize: 16,
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               color: theme.text,
               borderColor: theme.border,
-              borderWidth: 1,
-              textAlign: "center",
             }}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -212,137 +169,122 @@ const MilMillas = () => {
           />
         </View>
 
-        <BotonFilas key={`b5-${resetKey}`}
-          titulo="Seguridades I"
-          valor={200}
-          tipo={false}
-          top={800}
-        ></BotonFilas>
+        <BotonFilas key={`b5-${resetKey}`} titulo="Seguridades_I" valor={puntajeMilMillas.Seguridades_I} tipo={false} top={4*puntajeMilMillas.Seguridades_I}></BotonFilas>
 
-        <BotonFilas key={`b6-${resetKey}`} titulo="Seguridades II" valor={200}></BotonFilas>
+        <BotonFilas key={`b6-${resetKey}`} titulo="Seguridades_II" valor={puntajeMilMillas.Seguridades_II}></BotonFilas>
 
-        <BotonFilas key={`b7-${resetKey}`} titulo="TK" valor={200} tipo={false} top={800}></BotonFilas>
+        <BotonFilas key={`b7-${resetKey}`} titulo="TK" valor={puntajeMilMillas.TK} tipo={false} top={4*puntajeMilMillas.TK}></BotonFilas>
 
-        <BotonFilas key={`b8-${resetKey}`} titulo="Alargue" valor={200}></BotonFilas>
+        <BotonFilas key={`b8-${resetKey}`} titulo="Alargue" valor={puntajeMilMillas.Alargue}></BotonFilas>
 
         <View
           style={{
-            flexDirection: "row",
+            ...milMillas.filas,
             backgroundColor: theme.primary,
-            flexWrap: "wrap",
-            alignItems: "center",
-            width: "100%",
           }}
         >
           <View
             style={{
-              width: "31%",
-              height: 45,
+              ...milMillas.columna1,
               borderColor: theme.border,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center",
               backgroundColor: theme.secondary,
             }}
           >
             <Text
               style={{
-                fontSize: 28,
+                ...milMillas.columna1_texto,
                 color: theme.text,
-                textAlign: "center",
-                fontWeight: "bold",
               }}
             >
-              Total: {/* {ronda} */}
+              Total:
             </Text>
           </View>
           <View
             style={{
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               borderColor: theme.border,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center",
               backgroundColor: theme.secondary,
             }}
           >
             <Text
-              style={{ fontSize: 16, color: theme.text, textAlign: "center" }}
+              style={{ 
+                ...milMillas.columna2_texto,
+                color: theme.text,
+              }}
             >
               {puntaje.milMillas[0]}
             </Text>
           </View>
           <View
             style={{
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               borderColor: theme.border,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center",
               backgroundColor: theme.secondary,
             }}
           >
             <Text
-              style={{ fontSize: 16, color: theme.text, textAlign: "center" }}
+              style={{ 
+                ...milMillas.columna2_texto,
+                color: theme.text,
+              }}
             >
               {puntaje.milMillas[1]}
             </Text>
           </View>
           <View
             style={{
-              width: "23%",
-              height: 45,
+              ...milMillas.columna2,
               borderColor: theme.border,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center",
               backgroundColor: theme.secondary,
             }}
           >
             <Text
-              style={{ fontSize: 16, color: theme.text, textAlign: "center" }}
+              style={{ 
+                ...milMillas.columna2_texto,
+                color: theme.text,
+              }}
             >
               {puntaje.milMillas[2]}
             </Text>
           </View>
         </View>
+
       </View>
+
       <View
         style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          alignItems: "center",
-          width: "100%",
-          justifyContent: "space-around",
+          ...milMillas.contenedor_botones,
         }}
       >
         <Pressable
           style={{
+              ...milMillas.botones,
               backgroundColor: theme.finish,
-              justifyContent: "center",
-              alignItems: "center",
-              height: 100,
-              width: 100,
-              borderRadius: 5
             }}
           onPress={() => terminarRonda()}
         >
-          <Text style={{ fontSize: 16, color: theme.text, textAlign: "center" }}>Terminar Ronda</Text>
+          <Text style={{
+              ...milMillas.columna2_texto,
+              color: theme.text,
+            }}
+          >
+            Terminar Ronda
+          </Text>
         </Pressable>
         <Pressable
           style={{
-              backgroundColor: theme.accent,
-              justifyContent: "center",
-              alignItems: "center",
-              height: 100,
-              width: 100,
-              borderRadius: 5
-            }}
+            ...milMillas.botones,
+            backgroundColor: theme.accent,
+          }}
           onPress={() => resetJuego()}
         >
-          <Text style={{ fontSize: 16, color: theme.text, textAlign: "center" }}>Reset</Text>
+          <Text style={{
+              ...milMillas.columna2_texto,
+              color: theme.text,
+            }}
+          >
+            Reset
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>

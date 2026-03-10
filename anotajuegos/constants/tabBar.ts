@@ -1,4 +1,6 @@
-export const TabBar = {
+import {StyleSheet} from 'react-native';
+
+export const TabBar = StyleSheet.create({
     tabBarIcon: {
         width: 40,
         height: 40,
@@ -12,4 +14,4 @@ export const TabBar = {
         fontSize: 16,
         paddingTop: 10
     },
-};
+});

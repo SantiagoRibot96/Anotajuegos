@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, Modal } from "react-native";
 import { useTheme } from "../../hooks/themeHook";
 import { usePuntaje } from "../../hooks/scoreHook";
+import { milMillas, explicacionMilMillas, titulosMilMillas } from "../../constants/milMillas";
 
 type Props = {
-  titulo: string;
+  titulo: keyof typeof titulosMilMillas;
   valor: number;
   tipo?: boolean;
   top?: number;
@@ -15,7 +16,8 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
 
   const [total, setTotal] = useState([0, 0, 0]);
   const [valorAgregado, setValorAgregado] = useState([0, 0, 0]);
-  const { puntaje, sumar, restar } = usePuntaje();
+  const [modalVisible, setModalVisible] = useState(false);
+  const { sumar, restar } = usePuntaje();
 
   const cambiarValor = (equipo: number) => {
     const copy = [0, 0, 0];
@@ -44,196 +46,104 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
     setValorAgregado(copy);
   };
 
-  return tipo ? (
-    <View
-      style={{
-        flexDirection: "row",
-        backgroundColor: theme.primary,
-        flexWrap: "wrap",
-        alignItems: "center",
-        width: "100%",
-      }}
-    >
+  return (
+    <>
       <View
         style={{
-          width: "31%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          ...milMillas.filas,
+          backgroundColor: theme.primary,
         }}
       >
-        <Text
+        <View
           style={{
-            fontSize: 16,
-            color: theme.text,
-            textAlign: "center",
-            fontWeight: "bold",
+            ...milMillas.columna1,
+            borderColor: theme.border,
           }}
         >
-          {titulo}
-        </Text>
+          <Pressable onPress={() => setModalVisible(true)}>
+            <Text
+              style={{
+                ...milMillas.columna1_texto,
+                color: theme.text,
+              }}
+            >
+              {titulosMilMillas[titulo]}
+            </Text>
+          </Pressable>
+        </View>
+
+        {[0, 1, 2].map((i) => (
+          <View
+            key={i}
+            style={{
+              ...milMillas.columna2,
+              borderColor: theme.border,
+            }}
+          >
+            <Pressable
+              onPress={() => {
+                if (tipo) cambiarValor(i);
+                else agregarValor(i);
+              }}
+              style={{
+                ...milMillas.columna2_botones,
+                backgroundColor: theme.primary,
+              }}
+            >
+              <Text
+                style={{
+                  ...milMillas.columna2_texto,
+                  color: theme.text,
+                }}
+              >
+                {tipo ? total[i] : valorAgregado[i]}
+              </Text>
+            </Pressable>
+          </View>
+        ))}
+
       </View>
-      <View
-        style={{
-          width: "23%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-        }}
+      <Modal
+        visible={modalVisible}
+        animationType="fade"
+        transparent={true}
       >
-        <Pressable
-          onPress={() => cambiarValor(0)}
-          style={{
-            flex: 1,
-            backgroundColor: theme.primary,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16, color: theme.text }}>{total[0]}</Text>
-        </Pressable>
-      </View>
-      <View
-        style={{
-          width: "23%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-        }}
-      >
-        <Pressable
-          onPress={() => cambiarValor(1)}
-          style={{
-            flex: 1,
-            backgroundColor: theme.primary,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16, color: theme.text }}>{total[1]}</Text>
-        </Pressable>
-      </View>
-      <View
-        style={{
-          width: "23%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-        }}
-      >
-        <Pressable
-          onPress={() => cambiarValor(2)}
+        <View
           style={{
             flex: 1,
-            backgroundColor: theme.primary,
             justifyContent: "center",
             alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.4)",
           }}
         >
-          <Text style={{ fontSize: 16, color: theme.text }}>{total[2]}</Text>
-        </Pressable>
-      </View>
-    </View>
-  ) : (
-    <View
-      style={{
-        flexDirection: "row",
-        backgroundColor: theme.primary,
-        flexWrap: "wrap",
-        alignItems: "center",
-        width: "100%",
-      }}
-    >
-      <View
-        style={{
-          width: "31%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 16,
-            color: theme.text,
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
-        >
-          {titulo}
-        </Text>
-      </View>
-      <View
-        style={{
-          width: "23%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-        }}
-      >
-        <Pressable
-          onPress={() => agregarValor(0)}
-          style={{
-            flex: 1,
-            backgroundColor: theme.primary,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16, color: theme.text }}>
-            {valorAgregado[0]}
-          </Text>
-        </Pressable>
-      </View>
-      <View
-        style={{
-          width: "23%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-        }}
-      >
-        <Pressable
-          onPress={() => agregarValor(1)}
-          style={{
-            flex: 1,
-            backgroundColor: theme.primary,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16, color: theme.text }}>
-            {valorAgregado[1]}
-          </Text>
-        </Pressable>
-      </View>
-      <View
-        style={{
-          width: "23%",
-          height: 45,
-          borderColor: theme.border,
-          borderWidth: 1,
-        }}
-      >
-        <Pressable
-          onPress={() => agregarValor(2)}
-          style={{
-            flex: 1,
-            backgroundColor: theme.primary,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16, color: theme.text }}>
-            {valorAgregado[2]}
-          </Text>
-        </Pressable>
-      </View>
-    </View>
+          <View
+            style={{
+              width: "80%",
+              backgroundColor: theme.background,
+              padding: 20,
+              borderRadius: 10,
+            }}
+          >
+            <Text style={{ color: theme.text, fontSize: 18, marginBottom: 10 }}>
+              {titulosMilMillas[titulo]}
+            </Text>
+
+            <Text style={{ color: theme.text }}>
+              {explicacionMilMillas[titulo]}
+            </Text>
+
+            <Pressable
+              onPress={() => setModalVisible(false)}
+              style={{ marginTop: 20, alignSelf: "flex-end" }}
+            >
+              <Text style={{ color: theme.primary }}>
+                Cerrar
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 };
 
