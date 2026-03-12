@@ -58,11 +58,11 @@ export const milMillas = StyleSheet.create({
 });
 
 export const puntajeMilMillas = {
-    Viaje_Completo: 400,
+    Viaje_completo: 400,
     TK: 300,
     Seguridades_I: 100,
     Seguridades_II: 300,
-    Viaje_Seguro: 300,
+    Viaje_seguro: 300,
     Bloqueo: 500,
     Accion_demorada: 300,
     Alargue: 200

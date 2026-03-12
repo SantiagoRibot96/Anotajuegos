@@ -4,7 +4,7 @@ import { Alert, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../hooks/themeHook";
 import { usePuntaje } from "../../hooks/scoreHook";
-import { milMillas, puntajeMilMillas } from "../../constants/milMillas";
+import { milMillas, puntajeMilMillas, titulosMilMillas } from "../../constants/milMillas";
 
 const MilMillas = () => {
   const theme = useTheme();
@@ -22,24 +22,24 @@ const MilMillas = () => {
   };
 
   const terminarRonda = () => {
-    setResetKey(prev => prev + 1);
+    setResetKey(prev => prev + 3);
     setRecorrido([0, 0, 0]);
     if(puntaje.milMillas.find(num => num >= 5000) !== undefined){
-      Alert.alert("Partida terminada" + "\n" + "Jugador 1: " + puntaje.milMillas[0] + "\n" + "Jugador 2: " + puntaje.milMillas[1] + "\n" + "Jugador 3: " + puntaje.milMillas[2]);
-      zero("milMillas", 0);
-      zero("milMillas", 1);
-      zero("milMillas", 2);
+      Alert.alert("Partida terminada, el ganador es: " + puntaje.milMillas.indexOf(Math.max(...puntaje.milMillas)).toString());
+      for(let i = 0; i < 3; i++){
+        zero("milMillas", i);
+      }
     }
   };
 
   const resetJuego = () => {
-    setResetKey(prev => prev + 1);
+    setResetKey(prev => prev + 3);
     setResetKey2(prev => prev + 1);
     setRecorrido([0, 0, 0]);
-    zero("milMillas", 0);
-    zero("milMillas", 1);
-    zero("milMillas", 2);
-  }
+    for(let i = 0; i < 3; i++){
+      zero("milMillas", i);
+    }
+  };
 
   return (
     <SafeAreaView
@@ -70,46 +70,50 @@ const MilMillas = () => {
               Jugadores
             </Text>
           </View>
-          <TextInput
-            key={`a1-${resetKey2}`}
-            style={{
-              ...milMillas.columna2,
-              color: theme.text,
-              borderColor: theme.border,
-            }}
-            placeholder="Equipo 1"
-            returnKeyType="done"
-          />
-          <TextInput
-            key={`a2-${resetKey2}`}
-            style={{
-              ...milMillas.columna2,
-              color: theme.text,
-              borderColor: theme.border,
-            }}
-            placeholder="Equipo 2"
-            returnKeyType="done"
-          />
-          <TextInput
-            key={`a3-${resetKey2}`}
-            style={{
-              ...milMillas.columna2,
-              color: theme.text,
-              borderColor: theme.border,
-            }}
-            placeholder="Equipo 3"
-            returnKeyType="done"
-          />
+          {
+            [1, 2, 3].map((jugador) => (
+              <TextInput
+                key={jugador+resetKey2}
+                style={{
+                  ...milMillas.columna2,
+                  color: theme.text,
+                  borderColor: theme.border,
+                }}
+                placeholder={jugador.toString()}
+                returnKeyType="done"
+              />
+            ))
+          }
         </View>
-
-        <BotonFilas key={`b1-${resetKey}`} titulo="Viaje_completo" valor={puntajeMilMillas.Viaje_Completo}></BotonFilas>
-
-        <BotonFilas key={`b2-${resetKey}`} titulo="Accion_demorada" valor={puntajeMilMillas.Accion_demorada}></BotonFilas>
-
-        <BotonFilas key={`b3-${resetKey}`} titulo="Bloqueo" valor={puntajeMilMillas.Bloqueo}></BotonFilas>
-
-        <BotonFilas key={`b4-${resetKey}`} titulo="Viaje_seguro" valor={puntajeMilMillas.Viaje_Seguro}></BotonFilas>
-
+        
+        {
+          (Object.keys(titulosMilMillas) as (keyof typeof titulosMilMillas)[]).map((titulo) => (
+            titulo === 'Seguridades_I' ?
+              <BotonFilas
+                key={titulo+resetKey}
+                titulo={titulo}
+                valor={puntajeMilMillas[titulo]}
+                tipo={false}
+                top={4*puntajeMilMillas[titulo]}
+              /> :
+              (
+                titulo === 'TK' ? 
+                  <BotonFilas
+                    key={titulo+resetKey}
+                    titulo={titulo}
+                    valor={puntajeMilMillas[titulo]}
+                    tipo={false}
+                    top={4*puntajeMilMillas[titulo]}
+                  /> : 
+                  <BotonFilas
+                    key={titulo+resetKey}
+                    titulo={titulo}
+                    valor={puntajeMilMillas[titulo]}
+                  />
+              )
+          ))
+        }
+        
         <View
           style={{
             ...milMillas.filas,
@@ -131,51 +135,23 @@ const MilMillas = () => {
               Recorrido
             </Text>
           </View>
-          <TextInput
-            key={`b9-${resetKey}`}
-            style={{
-              ...milMillas.columna2,
-              color: theme.text,
-              borderColor: theme.border,
-            }}
-            keyboardType="number-pad"
-            returnKeyType="done"
-            onEndEditing={(e) => anotarRecorrido(0, Number(e.nativeEvent.text))}
-            placeholder="0"
-          />
-          <TextInput
-            key={`b10-${resetKey}`}
-            style={{
-              ...milMillas.columna2,
-              color: theme.text,
-              borderColor: theme.border,
-            }}
-            keyboardType="number-pad"
-            returnKeyType="done"
-            onEndEditing={(e) => anotarRecorrido(1, Number(e.nativeEvent.text))}
-            placeholder="0"
-          />
-          <TextInput
-            key={`b11-${resetKey}`}
-            style={{
-              ...milMillas.columna2,
-              color: theme.text,
-              borderColor: theme.border,
-            }}
-            keyboardType="number-pad"
-            returnKeyType="done"
-            onEndEditing={(e) => anotarRecorrido(2, Number(e.nativeEvent.text))}
-            placeholder="0"
-          />
+          {
+            [0, 1, 2].map((jugador) => (
+              <TextInput
+                key={jugador+resetKey}
+                style={{
+                  ...milMillas.columna2,
+                  color: theme.text,
+                  borderColor: theme.border,
+                }}
+                keyboardType="number-pad"
+                returnKeyType="done"
+                onEndEditing={(e) => anotarRecorrido(jugador, Number(e.nativeEvent.text))}
+                placeholder='0'
+              />
+            ))
+          }
         </View>
-
-        <BotonFilas key={`b5-${resetKey}`} titulo="Seguridades_I" valor={puntajeMilMillas.Seguridades_I} tipo={false} top={4*puntajeMilMillas.Seguridades_I}></BotonFilas>
-
-        <BotonFilas key={`b6-${resetKey}`} titulo="Seguridades_II" valor={puntajeMilMillas.Seguridades_II}></BotonFilas>
-
-        <BotonFilas key={`b7-${resetKey}`} titulo="TK" valor={puntajeMilMillas.TK} tipo={false} top={4*puntajeMilMillas.TK}></BotonFilas>
-
-        <BotonFilas key={`b8-${resetKey}`} titulo="Alargue" valor={puntajeMilMillas.Alargue}></BotonFilas>
 
         <View
           style={{
@@ -199,54 +175,28 @@ const MilMillas = () => {
               Total:
             </Text>
           </View>
-          <View
-            style={{
-              ...milMillas.columna2,
-              borderColor: theme.border,
-              backgroundColor: theme.secondary,
-            }}
-          >
-            <Text
-              style={{ 
-                ...milMillas.columna2_texto,
-                color: theme.text,
-              }}
-            >
-              {puntaje.milMillas[0]}
-            </Text>
-          </View>
-          <View
-            style={{
-              ...milMillas.columna2,
-              borderColor: theme.border,
-              backgroundColor: theme.secondary,
-            }}
-          >
-            <Text
-              style={{ 
-                ...milMillas.columna2_texto,
-                color: theme.text,
-              }}
-            >
-              {puntaje.milMillas[1]}
-            </Text>
-          </View>
-          <View
-            style={{
-              ...milMillas.columna2,
-              borderColor: theme.border,
-              backgroundColor: theme.secondary,
-            }}
-          >
-            <Text
-              style={{ 
-                ...milMillas.columna2_texto,
-                color: theme.text,
-              }}
-            >
-              {puntaje.milMillas[2]}
-            </Text>
-          </View>
+
+            { 
+              [0, 1, 2].map((jugador) => (
+                <View
+                  style={{
+                    ...milMillas.columna2,
+                    borderColor: theme.border,
+                    backgroundColor: theme.secondary,
+                  }}
+                  key={jugador}
+                >
+                  <Text
+                    style={{ 
+                      ...milMillas.columna2_texto,
+                      color: theme.text,
+                    }}
+                  >
+                    {puntaje.milMillas[jugador]}
+                  </Text>
+                </View>
+              ))
+            } 
         </View>
 
       </View>
