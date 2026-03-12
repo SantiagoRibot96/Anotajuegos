@@ -1,6 +1,6 @@
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "../../context/themeContext";
+import { useTheme } from "../../hooks/themeHook";
 
 const Truco = () => {
   const theme = useTheme();
