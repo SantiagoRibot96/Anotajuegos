@@ -10,6 +10,7 @@ export const Colors = {
     secondary: "#3FAF8E",
     accent: "#F2C94C",
     finish: "#4c78f2",
+    stop: "#ce3737",
   },
   dark: {
     background: "#121417",
@@ -22,5 +23,6 @@ export const Colors = {
     secondary: "#145A4A",
     accent: "#F2C94C",
     finish: "#4c78f2",
+    stop: "#ce3737",
   },
 };

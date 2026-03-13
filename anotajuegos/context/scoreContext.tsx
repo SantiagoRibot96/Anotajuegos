@@ -12,6 +12,7 @@ type PuntajeContextType = {
   sumar: (juego: keyof Juegos, valor: number, equipo: number) => void
   restar: (juego: keyof Juegos, valor: number, equipo: number) => void
   zero: (juego: keyof Juegos, equipo: number) => void
+  setTimer: (equipo: number, valor: number) => void
 }
 
 export const PuntajeContext = createContext<PuntajeContextType | undefined>(undefined);
@@ -60,8 +61,20 @@ export const PuntajeProvider = ({ children }: { children: React.ReactNode }) => 
         });
     };
 
+    const setTimer = (equipo: number, valor: number) => {
+        setPuntaje(prev => {
+            const nuevo = [...prev["ajedrez"]];
+            nuevo[equipo] = valor;
+
+            return {
+            ...prev,
+            ["ajedrez"]: nuevo
+            };
+        });
+    };
+
     return (
-        <PuntajeContext.Provider value={{ puntaje, sumar, restar, zero }}>
+        <PuntajeContext.Provider value={{ puntaje, sumar, restar, zero, setTimer }}>
             {children}
         </PuntajeContext.Provider>
     );
