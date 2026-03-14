@@ -10,10 +10,14 @@ const Ajedrez = () => {
   const theme = useTheme();
   const [jugador, setJugador] = useState(false);
   const [turno, setTurno] = useState<"white" | "black" | null>(null);
-  const { puntaje, restar, setTimer, sumar } = usePuntaje();
   const [tiempo, setTiempo] = useState(30);
   const [modo, setModo] = useState("0");
+  
+  const { puntaje, restar, setTimer, sumar } = usePuntaje();
+  
   const puntajeRef = useRef(puntaje);
+  const startTime = useRef<number | null>(null);
+  const interval = useRef<number | null>(null);
 
   useEffect(() => {
     puntajeRef.current = puntaje;
@@ -22,26 +26,31 @@ const Ajedrez = () => {
   useEffect(() => {
     if(turno === null) return;
 
-    const intervalId = setInterval(() => {
+    startTime.current = Date.now();
+
+    interval.current = setInterval(() => {
+      const elapsed = Date.now() - (startTime.current ?? 0);
+
       if (turno === "white") {
         if(puntajeRef.current["ajedrez"][0] <= 0) {
-          clearInterval(intervalId);
-          setTurno(null);
+          if (interval.current) clearInterval(interval.current);
+          reset();
           return;
         }
-        restar("ajedrez", 0.01, 0);
+        restar("ajedrez", Math.min(elapsed/1000, puntajeRef.current["ajedrez"][0]), 0)
       } else {
         if(puntajeRef.current["ajedrez"][1] <= 0) {
-          clearInterval(intervalId);
-          setTurno(null);
+          if (interval.current) clearInterval(interval.current);
+          reset();
           return;
         }
-        restar("ajedrez", 0.01, 1);
+        restar("ajedrez", Math.min(elapsed/1000, puntajeRef.current["ajedrez"][0]), 1)
       }
-    }, 10);
+      startTime.current = Date.now();
+    }, 100);
 
     return () => {
-      clearInterval(intervalId);
+      if (interval.current) clearInterval(interval.current);
     };
   }, [turno]);
 
@@ -65,6 +74,7 @@ const Ajedrez = () => {
     setTurno(null);
     setTimer(0, tiempo);
     setTimer(1, tiempo);
+    setJugador(false);
   }
 
   const cambiarTimer = () => {
@@ -118,33 +128,27 @@ const Ajedrez = () => {
               ...ajedrez.contenedor_timer,
               }}
             >
-              <Text
-                style={{
-                  color: theme.text,
-                  fontSize: 50,
-                  padding: 0,
-                  minHeight: 100,
-                  minWidth: 100
-                }}
-              >
-                {
-                  turno === null ?
-                  <Pressable onPress={() => cambiarTimer()}>
-                    <Text
-                      style={{
-                        color: theme.text,
-                        fontSize: 50,
-                        padding: 0,
-                        minHeight: 100,
-                        minWidth: 100
-                      }}
-                    >
-                      {formatTime(tiempo)}
-                    </Text>
-                  </Pressable> :
-                  <Text>{formatTime(puntaje["ajedrez"][0])}</Text>
-                }
-              </Text>
+              {
+                turno === null ?
+                <Pressable onPress={() => cambiarTimer()}>
+                  <Text
+                    style={{
+                      color: theme.text,
+                      ...ajedrez.texto_timer
+                    }}
+                  >
+                    {formatTime(tiempo)}
+                  </Text>
+                </Pressable> :
+                <Text
+                  style={{
+                    color: theme.text,
+                    ...ajedrez.texto_timer
+                  }}
+                >
+                  {formatTime(puntaje["ajedrez"][0])}
+                </Text>
+              }
             </View>
             <View
               style={{
@@ -174,7 +178,6 @@ const Ajedrez = () => {
           <View
             style={{
               ...ajedrez.filas,
-              transform: "rotate(-90deg)",
             }}
           >
             {
@@ -184,8 +187,8 @@ const Ajedrez = () => {
                   onValueChange={(itemValue) => setModo(itemValue)}
                   style={{
                     color: theme.text,
-                    height: "100%",
-                    width: 200,
+                    backgroundColor: theme.secondary,
+                    ...ajedrez.picker
                   }}
                 >
                     <Picker.Item label="0" value="0" />
@@ -198,10 +201,8 @@ const Ajedrez = () => {
                 <Text
                   style={{
                     color: theme.text,
-                    fontSize: 50,
-                    padding: 15,
-                    minHeight: 100,
-                    minWidth: 100
+                    ...ajedrez.picker_texto,
+                    backgroundColor: theme.secondary,
                   }}
                 >
                   {modo}
@@ -219,33 +220,27 @@ const Ajedrez = () => {
               ...ajedrez.contenedor_timer,
               }}
             >
-              <Text
-                style={{
-                  color: theme.text,
-                  fontSize: 50,
-                  padding: 0,
-                  minHeight: 100,
-                  minWidth: 100
-                }}
-              >
-                {
-                  turno === null ?
-                  <Pressable onPress={() => cambiarTimer()}>
-                    <Text
-                      style={{
-                        color: theme.text,
-                        fontSize: 50,
-                        padding: 0,
-                        minHeight: 100,
-                        minWidth: 100
-                      }}
-                    >
-                      {formatTime(tiempo)}
-                    </Text>
-                  </Pressable> :
-                  <Text>{formatTime(puntaje["ajedrez"][1])}</Text>
-                }
-              </Text>
+              {
+                turno === null ?
+                <Pressable onPress={() => cambiarTimer()}>
+                  <Text
+                    style={{
+                      color: theme.text,
+                      ...ajedrez.texto_timer,
+                    }}
+                  >
+                    {formatTime(tiempo)}
+                  </Text>
+                </Pressable> :
+                <Text
+                  style={{
+                    color: theme.text,
+                    ...ajedrez.texto_timer
+                  }}
+                >
+                  {formatTime(puntaje["ajedrez"][1])}
+                </Text>
+              }
             </View>
             <View
               style={{

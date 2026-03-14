@@ -33,19 +33,26 @@ export const ajedrez = StyleSheet.create({
     contenedor_timer: {
         alignItems: "center",
         transform: "rotate(-90deg)",
+    },
+    texto_timer: {
+        fontSize: 50,
+        padding: 0,
+        minHeight: 100,
+        minWidth: 100
+    },
+    picker: {
+        height: "100%",
+        width: 200,
+        transform: "rotate(-90deg)",
+        borderRadius: 30
+    },
+    picker_texto: {
+        fontSize: 50,
+        padding: 15,
+        minHeight: 100,
+        minWidth: 100,
+        textAlign: "center",
+        transform: "rotate(-90deg)",
+        borderRadius: 20
     }
 });
-
-export const titulosAjedrez = {
-    '1': '1',
-    '2': '2',
-    '3': '3',
-    '4': '4',
-    '5': '5',
-    '6': '6',
-    'escalera': 'Escalera',
-    'full': 'Full',
-    'poker': 'Poker',
-    'generala': 'Generala',
-    'doble_generala': 'Doble Generala',
-}
