@@ -70,6 +70,7 @@ const Truco = () => {
               fontSize: 30,
               fontWeight: "bold",
             }}
+            allowFontScaling={false}
           >
             Nosotros
           </Text>
@@ -80,6 +81,7 @@ const Truco = () => {
               fontSize: 30,
               fontWeight: "bold",
             }}
+            allowFontScaling={false}
           >
             {puntaje.truco[0]}
           </Text>
@@ -131,6 +133,7 @@ const Truco = () => {
               fontSize: 30,
               fontWeight: "bold",
             }}
+            allowFontScaling={false}
           >
             Ellos
           </Text>
@@ -141,6 +144,7 @@ const Truco = () => {
               fontSize: 30,
               fontWeight: "bold",
             }}
+            allowFontScaling={false}
           >
             {puntaje.truco[1]}
           </Text>
@@ -168,7 +172,7 @@ const Truco = () => {
                 borderRadius: 10,
               }}
             >
-              <Text style={{ color: theme.text, fontSize: 18, marginBottom: 10 }}>
+              <Text style={{ color: theme.text, fontSize: 18, marginBottom: 10 }} allowFontScaling={false}>
                 El juego ha terminado! {puntaje.truco[0] > puntaje.truco[1] ? "Ganamos Nosotros" : "Ganaron Ellos"}
               </Text>
               <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -176,7 +180,7 @@ const Truco = () => {
                   onPress={() => reset()}
                   style={{ marginTop: 20, alignSelf: "flex-end" }}
                 >
-                  <Text style={{ color: theme.primary }}>
+                  <Text style={{ color: theme.primary }} allowFontScaling={false}>
                     Reiniciar el juego
                   </Text>
                 </Pressable>
@@ -184,7 +188,7 @@ const Truco = () => {
                   onPress={() => setModalVisible(false)}
                   style={{ marginTop: 20, alignSelf: "flex-end" }}
                 >
-                  <Text style={{ color: theme.primary }}>
+                  <Text style={{ color: theme.primary }} allowFontScaling={false}>
                     Cerrar
                   </Text>
                 </Pressable>

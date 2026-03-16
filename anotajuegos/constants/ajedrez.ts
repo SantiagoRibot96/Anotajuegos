@@ -1,58 +1,74 @@
 import {StyleSheet} from 'react-native';
 
 export const ajedrez = StyleSheet.create({
-    contenedor: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "space-around",
-        borderBlockColor: "white",
-        borderWidth: 1
-    },
-    filas: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        alignItems: "center",
-        width: "100%",
-        justifyContent: "space-evenly",
-        alignContent: "space-evenly",
-        height: "35%",
-    },
-    contenedor_botones: {
-        alignItems: "center",
-        transform: "rotate(-90deg)",
-    },
-    botones: {
-        borderRadius: 5,
-        padding: 15,
-    },
-    botones_texto: {
-        fontSize: 70,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    contenedor_timer: {
-        alignItems: "center",
-        transform: "rotate(-90deg)",
-    },
-    texto_timer: {
-        fontSize: 50,
-        padding: 0,
-        minHeight: 100,
-        minWidth: 100
-    },
-    picker: {
-        height: "100%",
-        width: 200,
-        transform: "rotate(-90deg)",
-        borderRadius: 30
-    },
-    picker_texto: {
-        fontSize: 50,
-        padding: 15,
-        minHeight: 100,
-        minWidth: 100,
-        textAlign: "center",
-        transform: "rotate(-90deg)",
-        borderRadius: 20
-    }
+  contenedor: {
+    flex: 1,
+    flexDirection: "column",
+    padding: 30
+  },
+
+  filas: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-evenly",
+    height: "45%",
+  },
+
+  filas_pequeña: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "20%",
+  },
+
+  contenedor_botones: {
+    alignItems: "center",
+  },
+
+  botones: {
+    borderRadius: 5,
+    padding: 15,
+    transform: "rotate(-90deg)",
+  },
+
+  botones_texto: {
+    fontSize: 70,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
+  contenedor_timer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    flexWrap: "wrap",
+    width: 160,              // ancho fijo evita saltos
+  },
+
+  texto_timer: {
+    fontSize: 64,
+    transform: "rotate(-90deg)",
+    fontVariant: ["tabular-nums"],  // números monoespaciados
+    textAlign: "center",
+  },
+
+  texto_ms: {
+    fontSize: 40,
+  },
+
+  picker: {
+    height: 220,
+    width: 100,
+    transform: "rotate(-90deg)",
+    borderRadius: 30,
+  },
+
+  picker_texto: {
+    fontSize: 50,
+    textAlign: "center",
+    transform: "rotate(-90deg)",
+    padding: 15,
+    borderRadius: 20
+  }
 });

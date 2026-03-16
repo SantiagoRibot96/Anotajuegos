@@ -95,6 +95,7 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
                     ...generala.columna1_texto,
                     color: theme.text,
                     }}
+                    allowFontScaling={false}
                 >
                     {titulosGenerala[titulo]}
                 </Text>
@@ -120,10 +121,11 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
                         onLongPress={() => toggleAnularJugada(i)}
                     >
                         <Text
-                        style={{
-                            ...generala.columna2_texto,
-                            color: theme.text,
-                        }}
+                            style={{
+                                ...generala.columna2_texto,
+                                color: theme.text,
+                            }}
+                            allowFontScaling={false}
                         >
                             {anularJugada[i] ? "X" : total[i]}
                         </Text>

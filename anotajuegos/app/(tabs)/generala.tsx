@@ -60,6 +60,7 @@ const Generala = () => {
                 ...generala.columna1_texto,
                 color: theme.text,
               }}
+              allowFontScaling={false}
             >
               Jugadores
             </Text>
@@ -76,6 +77,7 @@ const Generala = () => {
                 placeholder={jugador.toString()}
                 returnKeyType="done"
                 onEndEditing={(e) => anotarJugador(jugador, e.nativeEvent.text)}
+                allowFontScaling={false}
               />
             ))
           }
@@ -116,6 +118,7 @@ const Generala = () => {
                 ...generala.columna1_texto,
                 color: theme.text,
               }}
+              allowFontScaling={false}
             >
               Total:
             </Text>
@@ -135,6 +138,7 @@ const Generala = () => {
                     ...generala.columna2_texto,
                     color: theme.text,
                   }}
+                  allowFontScaling={false}
                 >
                   {puntaje.generala[jugador]}
                 </Text>
@@ -161,6 +165,7 @@ const Generala = () => {
               ...generala.columna2_texto,
               color: theme.text,
             }}
+            allowFontScaling={false}
           >
             Terminar Partida
           </Text>
@@ -176,6 +181,7 @@ const Generala = () => {
               ...generala.columna2_texto,
               color: theme.text,
             }}
+            allowFontScaling={false}
           >
             Reset
           </Text>

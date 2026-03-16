@@ -3,6 +3,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { ThemeProvider } from "../context/themeContext";
 import { PuntajeProvider } from "../context/scoreContext";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,13 +18,15 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <PuntajeProvider>
-      <ThemeProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </ThemeProvider>
-    </PuntajeProvider>
-
+    <SafeAreaProvider>
+      <PuntajeProvider>
+        <ThemeProvider>
+          <StatusBar style="auto" />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </ThemeProvider>
+      </PuntajeProvider>
+    </SafeAreaProvider>
   );
 }

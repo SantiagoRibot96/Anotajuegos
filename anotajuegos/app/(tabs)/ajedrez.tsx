@@ -5,6 +5,8 @@ import { usePuntaje } from "../../hooks/scoreHook";
 import { ajedrez } from "@/constants/ajedrez";
 import { useRef, useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
+import { Platform } from "react-native";
+import WheelPickerExpo from "react-native-wheel-picker-expo";
 
 const Ajedrez = () => {
   const theme = useTheme();
@@ -99,16 +101,17 @@ const Ajedrez = () => {
 
   function formatTime(sec: number) {
     const m = Math.floor(sec / 60);
-    const s = Math.floor((sec % 60));
-    const ms = Math.floor((sec % 1)*100);
+    const s = Math.floor(sec % 60);
+    const ms = Math.floor((sec % 1) * 100);
 
-    if(m === 0 && s < 10) {
-      return "0:0" + s + "." + ms;
-    }if(s === 0){
-      return `${m}:00`;
-    }
-    return `${m}:${s}`;
+    return {
+      main: `${m}:${s.toString().padStart(2, "0")}`,
+      ms: m === 0 ? `.${ms.toString().padStart(2, "0")}` : ""
+    };
   }
+
+  const t0 = formatTime(puntaje["ajedrez"][0]);
+  const t1 = formatTime(puntaje["ajedrez"][1]);
 
   return (
     <>
@@ -134,10 +137,11 @@ const Ajedrez = () => {
                   <Text
                     style={{
                       color: theme.text,
-                      ...ajedrez.texto_timer
+                      ...ajedrez.texto_timer,
                     }}
+                    allowFontScaling={false}
                   >
-                    {formatTime(tiempo)}
+                    {formatTime(tiempo).main}
                   </Text>
                 </Pressable> :
                 <Text
@@ -145,8 +149,14 @@ const Ajedrez = () => {
                     color: theme.text,
                     ...ajedrez.texto_timer
                   }}
+                  allowFontScaling={false}
                 >
-                  {formatTime(puntaje["ajedrez"][0])}
+                  {t0.main}
+                  {t0.ms && (
+                    <Text style={ajedrez.texto_ms}>
+                      {t0.ms}
+                    </Text>
+                  )}
                 </Text>
               }
             </View>
@@ -168,6 +178,7 @@ const Ajedrez = () => {
                     ...ajedrez.botones_texto,
                     color: theme.text
                   }}
+                  allowFontScaling={false}
                 >
                   Parar
                 </Text>
@@ -177,19 +188,21 @@ const Ajedrez = () => {
 
           <View
             style={{
-              ...ajedrez.filas,
+              ...ajedrez.filas_pequeña,
             }}
           >
             {
               turno === null ?
+                (Platform.OS === "ios" ?
                 <Picker
                   selectedValue={modo}
                   onValueChange={(itemValue) => setModo(itemValue)}
                   style={{
                     color: theme.text,
                     backgroundColor: theme.secondary,
-                    ...ajedrez.picker
+                    ...ajedrez.picker,
                   }}
+                  mode="dropdown"
                 >
                     <Picker.Item label="0" value="0" />
                     <Picker.Item label="+1" value="1" />
@@ -197,13 +210,33 @@ const Ajedrez = () => {
                     <Picker.Item label="+3" value="3" />
                     <Picker.Item label="+5" value="5" />
                     <Picker.Item label="+10" value="10" />
-                </Picker> :
+                </Picker>
+                :
+                <View
+                  style={{
+                    ...ajedrez.picker,
+                  }}
+                >
+                  <WheelPickerExpo
+                    onChange={({ item }) => setModo(item .value)}
+                    items={[
+                      {label:"0", value:"0"},
+                      {label:"+1", value:"1"},
+                      {label:"+2", value:"2"},
+                      {label:"+3", value:"3"},
+                      {label:"+5", value:"5"},
+                      {label:"+10", value:"10"}
+                    ]}
+                  />
+                </View>)
+                :
                 <Text
                   style={{
                     color: theme.text,
                     ...ajedrez.picker_texto,
                     backgroundColor: theme.secondary,
                   }}
+                  allowFontScaling={false}
                 >
                   {modo}
                 </Text>
@@ -228,8 +261,9 @@ const Ajedrez = () => {
                       color: theme.text,
                       ...ajedrez.texto_timer,
                     }}
+                    allowFontScaling={false}
                   >
-                    {formatTime(tiempo)}
+                    {formatTime(tiempo).main}
                   </Text>
                 </Pressable> :
                 <Text
@@ -237,8 +271,14 @@ const Ajedrez = () => {
                     color: theme.text,
                     ...ajedrez.texto_timer
                   }}
+                  allowFontScaling={false}
                 >
-                  {formatTime(puntaje["ajedrez"][1])}
+                  {t1.main}
+                  {t1.ms && (
+                    <Text style={ajedrez.texto_ms}>
+                      {t1.ms}
+                    </Text>
+                  )}
                 </Text>
               }
             </View>
@@ -260,6 +300,7 @@ const Ajedrez = () => {
                     ...ajedrez.botones_texto,
                     color: theme.text
                   }}
+                  allowFontScaling={false}
                 >
                   Parar
                 </Text>

@@ -71,6 +71,7 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
                 ...milMillas.columna1_texto,
                 color: theme.text,
               }}
+              allowFontScaling={false}
             >
               {titulosMilMillas[titulo]}
             </Text>
@@ -100,6 +101,7 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
                   ...milMillas.columna2_texto,
                   color: theme.text,
                 }}
+                allowFontScaling={false}
               >
                 {tipo ? total[i] : valorAgregado[i]}
               </Text>
@@ -129,11 +131,11 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
               borderRadius: 10,
             }}
           >
-            <Text style={{ color: theme.text, fontSize: 18, marginBottom: 10 }}>
+            <Text style={{ color: theme.text, fontSize: 18, marginBottom: 10 }} allowFontScaling={false}>
               {titulosMilMillas[titulo]}
             </Text>
 
-            <Text style={{ color: theme.text }}>
+            <Text style={{ color: theme.text }} allowFontScaling={false}>
               {explicacionMilMillas[titulo]}
             </Text>
 
@@ -141,7 +143,7 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
               onPress={() => setModalVisible(false)}
               style={{ marginTop: 20, alignSelf: "flex-end" }}
             >
-              <Text style={{ color: theme.primary }}>
+              <Text style={{ color: theme.primary }} allowFontScaling={false}>
                 Cerrar
               </Text>
             </Pressable>

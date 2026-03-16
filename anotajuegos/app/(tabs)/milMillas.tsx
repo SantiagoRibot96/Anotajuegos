@@ -73,6 +73,7 @@ const MilMillas = () => {
                 ...milMillas.columna1_texto,
                 color: theme.text,
               }}
+              allowFontScaling={false}
             >
               Jugadores
             </Text>
@@ -89,6 +90,7 @@ const MilMillas = () => {
                 placeholder={jugador.toString()}
                 returnKeyType="done"
                 onEndEditing={(e) => anotarJugador(jugador, e.nativeEvent.text)}
+                allowFontScaling={false}
               />
             ))
           }
@@ -139,6 +141,7 @@ const MilMillas = () => {
                 ...milMillas.columna1_texto,
                 color: theme.text,
               }}
+              allowFontScaling={false}
             >
               Recorrido
             </Text>
@@ -156,6 +159,7 @@ const MilMillas = () => {
                 returnKeyType="done"
                 onEndEditing={(e) => anotarRecorrido(jugador, Number(e.nativeEvent.text))}
                 placeholder='0'
+                allowFontScaling={false}
               />
             ))
           }
@@ -179,6 +183,7 @@ const MilMillas = () => {
                 ...milMillas.columna1_texto,
                 color: theme.text,
               }}
+              allowFontScaling={false}
             >
               Total:
             </Text>
@@ -199,6 +204,7 @@ const MilMillas = () => {
                       ...milMillas.columna2_texto,
                       color: theme.text,
                     }}
+                    allowFontScaling={false}
                   >
                     {puntaje.milMillas[jugador]}
                   </Text>
@@ -225,6 +231,7 @@ const MilMillas = () => {
               ...milMillas.columna2_texto,
               color: theme.text,
             }}
+            allowFontScaling={false}
           >
             Terminar Ronda
           </Text>
@@ -240,6 +247,7 @@ const MilMillas = () => {
               ...milMillas.columna2_texto,
               color: theme.text,
             }}
+            allowFontScaling={false}
           >
             Reset
           </Text>

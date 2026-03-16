@@ -19,7 +19,7 @@ export default function Index() {
         source={require("../../assets/images/adaptive-icon.png")}
         style={{ width: 200, height: 200, borderRadius: 10 }}
       />
-      <Text style={{ fontSize: 30, color: theme.text }}>AnotaJuegos</Text>
+      <Text style={{ fontSize: 30, color: theme.text }} allowFontScaling={false}>AnotaJuegos</Text>
     </SafeAreaView>
   );
 }

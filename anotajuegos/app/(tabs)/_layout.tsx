@@ -2,11 +2,11 @@ import { TabBar } from "@/constants/tabBar";
 import { Tabs } from "expo-router";
 import { Image } from "react-native";
 import { useTheme } from "../../hooks/themeHook";
-import { usePuntaje } from "../../hooks/scoreHook";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TabLayout = () => {
   const theme = useTheme();
-
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -16,8 +16,11 @@ const TabLayout = () => {
         tabBarStyle: {
           ...TabBar.tabBarStyle,
           backgroundColor: theme.lighterBackground,
+          paddingBottom: insets.bottom,
+          height: 85 + insets.bottom,
         },
         tabBarLabelStyle: TabBar.tabBarLabelStyle,
+        tabBarAllowFontScaling: false,
       }}
     >
       <Tabs.Screen
