@@ -12,6 +12,13 @@ const MilMillas = () => {
   const { puntaje, sumar, restar, zero } = usePuntaje();
   const [resetKey, setResetKey] = useState(0);
   const [resetKey2, setResetKey2] = useState(0);
+  const [ nombreJugador, setNombreJugador] = useState(["", "", ""]);
+
+  const anotarJugador = (equipo: number, nombre: string) => {
+    const copy = [...nombreJugador];
+    copy[equipo-1] = nombre;
+    setNombreJugador(copy);
+  }
 
   const anotarRecorrido = (equipo: number, recorridoRealizado: number) => {
     const copy = [...recorrido];
@@ -25,17 +32,17 @@ const MilMillas = () => {
     setResetKey(prev => prev + 3);
     setRecorrido([0, 0, 0]);
     if(puntaje.milMillas.find(num => num >= 5000) !== undefined){
-      Alert.alert("Partida terminada, el ganador es: " + puntaje.milMillas.indexOf(Math.max(...puntaje.milMillas)).toString());
-      for(let i = 0; i < 3; i++){
-        zero("milMillas", i);
-      }
+      const ganador = nombreJugador[puntaje.milMillas.indexOf(Math.max(...puntaje.milMillas))] || (puntaje.milMillas.indexOf(Math.max(...puntaje.milMillas))+1).toString();
+      Alert.alert("Partida terminada, el ganador es: " + ganador);
+      resetJuego();
     }
   };
 
   const resetJuego = () => {
     setResetKey(prev => prev + 3);
-    setResetKey2(prev => prev + 1);
+    setResetKey2(prev => prev + 3);
     setRecorrido([0, 0, 0]);
+    setNombreJugador(["", "", ""]);
     for(let i = 0; i < 3; i++){
       zero("milMillas", i);
     }
@@ -81,6 +88,7 @@ const MilMillas = () => {
                 }}
                 placeholder={jugador.toString()}
                 returnKeyType="done"
+                onEndEditing={(e) => anotarJugador(jugador, e.nativeEvent.text)}
               />
             ))
           }

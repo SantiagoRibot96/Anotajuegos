@@ -23,13 +23,18 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
     const copy = [0, 0, 0];
     const equipoConValor = total.indexOf(valor);
     copy[equipo] = valor;
-
+    
+    if(equipoConValor === equipo) {
+      copy[equipo] = 0;
+    }
     if(equipoConValor !== -1){
       restar("milMillas", valor, equipoConValor);
     }
-
+    if(equipoConValor !== equipo){
+      sumar("milMillas", valor, equipo);
+    }
+    
     setTotal(copy);
-    sumar("milMillas", valor, equipo);
   };
 
   const agregarValor = (equipo: number) => {

@@ -22,16 +22,27 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
         if(!anularJugada[equipo])
         {
             const copy = [...total];
-            if(copy[equipo] === valor){
-                copy[equipo] += 5;
-                sumar("generala", 5, equipo);
-            }else if(copy[equipo] === (valor + 5)){
-                copy[equipo] = 0;
-                restar("generala", (valor + 5), equipo);
+            if(titulo === 'generala' || titulo === 'doble_generala'){
+                if(copy[equipo] === 0){
+                    copy[equipo] = valor;
+                    sumar("generala", valor, equipo);
+                }else{
+                    copy[equipo] = 0;
+                    restar("generala", valor, equipo);
+                }
             }else{
-                copy[equipo] = valor;
-                sumar("generala", valor, equipo);
+                if(copy[equipo] === valor){
+                    copy[equipo] += 5;
+                    sumar("generala", 5, equipo);
+                }else if(copy[equipo] === (valor + 5)){
+                    copy[equipo] = 0;
+                    restar("generala", (valor + 5), equipo);
+                }else{
+                    copy[equipo] = valor;
+                    sumar("generala", valor, equipo);
+                }
             }
+
             setTotal(copy);
         }
     };

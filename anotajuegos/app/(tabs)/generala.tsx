@@ -11,17 +11,27 @@ const Generala = () => {
   const [resetKey, setResetKey] = useState(0);
   const [resetKey2, setResetKey2] = useState(0);
   const { puntaje, zero } = usePuntaje();
+  const [ nombreJugador, setNombreJugador] = useState(["", "", ""]);
 
 
-  const terminarRonda = () => {
-    setResetKey(prev => prev + 1);
-    setResetKey2(prev => prev + 1);
-    
+  const reset = (terminar: boolean) => {
+    setResetKey(prev => prev + 6);
+    setResetKey2(prev => prev + 6);
+    setNombreJugador(["", "", ""]);
     for(let i = 0; i < 6; i++){
       zero("generala", i);
     }
 
-    Alert.alert("Partida terminada, el ganador es: " + puntaje.generala.indexOf(Math.max(...puntaje.generala)).toString());
+    if(terminar){
+      const ganador = nombreJugador[puntaje.generala.indexOf(Math.max(...puntaje.generala))] || (puntaje.generala.indexOf(Math.max(...puntaje.generala))+1).toString();
+      Alert.alert("Partida terminada, el ganador es: " + ganador);
+    }
+  }
+
+  const anotarJugador = (equipo: number, nombre: string) => {
+    const copy = [...nombreJugador];
+    copy[equipo-1] = nombre;
+    setNombreJugador(copy);
   }
 
   return (
@@ -65,6 +75,7 @@ const Generala = () => {
                 }}
                 placeholder={jugador.toString()}
                 returnKeyType="done"
+                onEndEditing={(e) => anotarJugador(jugador, e.nativeEvent.text)}
               />
             ))
           }
@@ -143,7 +154,8 @@ const Generala = () => {
               ...generala.botones,
               backgroundColor: theme.finish,
             }}
-          onPress={() => terminarRonda()}
+          onPress={() => reset(true)}
+          disabled={puntaje.generala.reduce((a, b) => a + b, 0) === 0}
         >
           <Text style={{
               ...generala.columna2_texto,
@@ -151,6 +163,21 @@ const Generala = () => {
             }}
           >
             Terminar Partida
+          </Text>
+        </Pressable>
+        <Pressable
+          style={{
+            ...generala.botones,
+            backgroundColor: theme.accent,
+          }}
+          onPress={() => reset(false)}
+        >
+          <Text style={{
+              ...generala.columna2_texto,
+              color: theme.text,
+            }}
+          >
+            Reset
           </Text>
         </Pressable>
       </View>
