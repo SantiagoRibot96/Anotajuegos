@@ -4,7 +4,8 @@ Anotajuegos is a mobile app that allows you to keep score for classic games such
 
 This app was developed using React Native and Expo. It is my first mobile application, and the goal of this project was to learn the language and workflow of mobile app development.
 
----
+
+
 # 🚀 Demo
 
 Link to video demo: ![Demo](https://github.com/SantiagoRibot96/Anotajuegos/blob/main/screenshots/demo.mp4)
@@ -12,15 +13,17 @@ Link to video demo: ![Demo](https://github.com/SantiagoRibot96/Anotajuegos/blob/
 Anotajuegos is currently available only for Android devices through the following APK:
 <APK_DOWNLOAD_LINK>
 
----
-# 🧠 Characteristics
+
+
+# 🧠 Features
 
 - Keep score for **Truco**, **Generala**, and **Mil Millas**
 - Built-in **Chess Clock** with several time modes (1|1, 2|1, 3|5, and more)
 - Support for **multiple players**
 - **Simple and optimized interface** designed for quick use during gameplay
 
----
+
+
 # 📷 Screenshots
 
 Here are some examples of real in-app behavior.
@@ -36,16 +39,18 @@ Here are some examples of real in-app behavior.
 | <img src="screenshots/Truco2.jpeg" height="350"> | Classic Truco scoreboard. Tapping the score adds a point. Tapping **"Nosotros"** or **"Ellos"** subtracts one point. Long-press resets the game. |
 | <img src="screenshots/Truco1.jpeg" height="350"> | An alert appears when a player reaches **30 points**. |
 
----
-# 🛠️ Techlogies
+
+
+# 🛠️ Technologies
 
 - React Native
 - Expo
 - TypeScript / JavaScript
 - Context API for state management between components
 
----
-# ⚙️ Instalation
+
+
+# ⚙️ Installation
 - Clone this repository:
 ```
 git clone <https://github.com/SantiagoRibot96/Anotajuegos.git>
