@@ -1,4 +1,7 @@
 # 📱 Anotajuegos
+<p align="center">
+<img src="screenshots/ios-tinted.png" width="250"/>
+</p>
 
 Anotajuegos is a mobile app that allows you to keep score for classic games such as Truco, Generala and Mil Millas. It also includes a chess clock.
 
