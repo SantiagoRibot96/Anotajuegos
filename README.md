@@ -33,7 +33,7 @@ Here are some examples of real in-app behavior.
 | <img src="screenshots/Ajedrez2.jpeg" height="350"> | Allows you to choose the game mode (+2, +5) and time by tapping on the clock. Pressing the red **"Stop"** button starts the game. Long-pressing it stops and resets the clock. |
 | <img src="screenshots/Ajedrez3.jpeg" height="350"> | When the clock is below **10 seconds**, milliseconds become visible. |
 | <img src="screenshots/Generala1.jpeg" height="350"> | Classic Generala scoreboard. Tapping once adds the value. If it is a number it automatically multiplies it. For other score values you can select **"servida"** which adds +5 points. |
-| <img src="screenshots/Genelara2.jpeg" height="350"> | Long-press to disable a score value, and long-press again to enable it. |
+| <img src="screenshots/Generala2.jpeg" height="350"> | Long-press to disable a score value, and long-press again to enable it. |
 | <img src="screenshots/MilMillas2.jpeg" height="350"> | By tapping on score values you can add or subtract points. After each round you must press **"Finish round"**. |
 | <img src="screenshots/MilMillas3.jpeg" height="350"> | If a player reaches **5000 points**, the game automatically ends and declares a winner. |
 | <img src="screenshots/Truco2.jpeg" height="350"> | Classic Truco scoreboard. Tapping the score adds a point. Tapping **"Nosotros"** or **"Ellos"** subtracts one point. Long-press resets the game. |
