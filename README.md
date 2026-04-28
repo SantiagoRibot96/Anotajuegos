@@ -14,7 +14,7 @@ This app was developed using React Native and Expo. It is my first mobile applic
 Link to video demo: ![Demo](https://github.com/SantiagoRibot96/Anotajuegos/blob/main/screenshots/demo.mp4)
 
 Anotajuegos is currently available only for Android devices through the following APK:
-[Download](https://expo.dev/artifacts/eas/afmycjKqRhxTZHgN6U2F7B.apk)
+[Download](https://expo.dev/artifacts/eas/bKuqUu2z7ddGD66CVKs338.apk)
 
 
 Or you can scan the following QR:
