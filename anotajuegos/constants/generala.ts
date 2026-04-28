@@ -4,7 +4,6 @@ export const generala = StyleSheet.create({
     contenedor: {
         flex: 1,
         flexDirection: "column",
-        justifyContent: "space-evenly",
     },
     filas: {
         flexDirection: "row",
@@ -42,18 +41,22 @@ export const generala = StyleSheet.create({
         alignItems: "center",
     },
     contenedor_botones: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
         flexDirection: "row",
-        flexWrap: "wrap",
+        justifyContent: "center",
         alignItems: "center",
-        width: "100%",
-        justifyContent: "space-around",
+        gap: 16,
+        paddingVertical: 12,
     },
     botones: {
         justifyContent: "center",
         alignItems: "center",
         height: 50,
         width: 150,
-        borderRadius: 5
+        borderRadius: 8,
     },
 });
 
@@ -64,10 +67,10 @@ export const titulosGenerala = {
     '4': '4',
     '5': '5',
     '6': '6',
-    'escalera': 'Escalera',
-    'full': 'Full',
-    'poker': 'Poker',
-    'generala': 'Generala',
+    'escalera': 'Escalera ⚀⚁⚂⚃⚄',
+    'full': 'Full ⚃⚃⚅⚅⚅',
+    'poker': 'Poker ⚃⚃⚃⚃⚅',
+    'generala': 'Generala ⚃⚃⚃⚃⚃',
     'doble_generala': 'Doble Generala',
 }
 

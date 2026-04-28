@@ -29,7 +29,6 @@ export const ajedrez = StyleSheet.create({
   botones: {
     borderRadius: 5,
     padding: 15,
-    transform: "rotate(-90deg)",
   },
 
   botones_texto: {
@@ -42,14 +41,12 @@ export const ajedrez = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
-    flexWrap: "wrap",
-    width: 160,              // ancho fijo evita saltos
+    width: 160,
   },
 
   texto_timer: {
     fontSize: 64,
-    transform: "rotate(-90deg)",
-    fontVariant: ["tabular-nums"],  // números monoespaciados
+    fontVariant: ["tabular-nums"],
     textAlign: "center",
   },
 
@@ -58,16 +55,14 @@ export const ajedrez = StyleSheet.create({
   },
 
   picker: {
-    height: 220,
-    width: 100,
-    transform: "rotate(-90deg)",
+    height: 130,
+    width: 180,
     borderRadius: 30,
   },
 
   picker_texto: {
     fontSize: 50,
     textAlign: "center",
-    transform: "rotate(-90deg)",
     padding: 15,
     borderRadius: 20
   }

@@ -65,7 +65,7 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
             borderColor: theme.border,
           }}
         >
-          <Pressable onPress={() => setModalVisible(true)}>
+          <Pressable onPress={() => setModalVisible(true)} android_ripple={{ color: "rgba(255,255,255,0.2)", borderless: false }}>
             <Text
               style={{
                 ...milMillas.columna1_texto,
@@ -95,6 +95,7 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
                 ...milMillas.columna2_botones,
                 backgroundColor: theme.primary,
               }}
+              android_ripple={{ color: "rgba(255,255,255,0.25)", borderless: false }}
             >
               <Text
                 style={{
@@ -127,8 +128,13 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
             style={{
               width: "80%",
               backgroundColor: theme.background,
-              padding: 20,
-              borderRadius: 10,
+              padding: 24,
+              borderRadius: 14,
+              elevation: 8,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.25,
+              shadowRadius: 8,
             }}
           >
             <Text style={{ color: theme.text, fontSize: 18, marginBottom: 10 }} allowFontScaling={false}>
@@ -141,9 +147,17 @@ const BotonFilas = ({ titulo, valor, tipo = true, top = 0 }: Props) => {
 
             <Pressable
               onPress={() => setModalVisible(false)}
-              style={{ marginTop: 20, alignSelf: "flex-end" }}
+              style={{
+                marginTop: 16,
+                alignSelf: "flex-end",
+                paddingVertical: 10,
+                paddingHorizontal: 16,
+                borderRadius: 8,
+                backgroundColor: theme.primary,
+              }}
+              android_ripple={{ color: "rgba(255,255,255,0.2)", borderless: false }}
             >
-              <Text style={{ color: theme.primary }} allowFontScaling={false}>
+              <Text style={{ color: theme.text, fontWeight: "600", fontSize: 15 }} allowFontScaling={false}>
                 Cerrar
               </Text>
             </Pressable>

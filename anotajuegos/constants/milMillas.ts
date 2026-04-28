@@ -51,9 +51,9 @@ export const milMillas = StyleSheet.create({
     botones: {
         justifyContent: "center",
         alignItems: "center",
-        height: 100,
-        width: 100,
-        borderRadius: 5
+        height: 50,
+        width: 150,
+        borderRadius: 8,
     },
 });
 

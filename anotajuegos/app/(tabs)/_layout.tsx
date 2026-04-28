@@ -10,7 +10,11 @@ const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        headerStyle: { backgroundColor: theme.background },
+        headerTintColor: theme.text,
+        headerShadowVisible: false,
+        headerTitleStyle: { fontWeight: "700", fontSize: 18 },
         tabBarActiveTintColor: theme.text,
         tabBarInactiveTintColor: theme.inactiveText,
         tabBarStyle: {

@@ -1,313 +1,302 @@
-import { Pressable, Text, View } from "react-native";
+import { Modal, Platform, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../hooks/themeHook";
 import { usePuntaje } from "../../hooks/scoreHook";
-import { ajedrez } from "@/constants/ajedrez";
 import { useRef, useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { Platform } from "react-native";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
+import HelpModal, { HelpHeaderButton } from "@/components/HelpModal";
+import { useNavigation } from "expo-router";
+import { useGameEndAd } from "@/hooks/useGameEndAd";
+
+const TIMER_PRESETS = [30, 60, 120, 180, 300, 600, 900, 1800];
+const INCREMENTOS = [
+  { label: "0", value: "0" },
+  { label: "+1", value: "1" },
+  { label: "+2", value: "2" },
+  { label: "+3", value: "3" },
+  { label: "+5", value: "5" },
+  { label: "+10", value: "10" },
+];
 
 const Ajedrez = () => {
   const theme = useTheme();
-  const [jugador, setJugador] = useState(false);
+  const navigation = useNavigation();
   const [turno, setTurno] = useState<"white" | "black" | null>(null);
   const [tiempo, setTiempo] = useState(30);
   const [modo, setModo] = useState("0");
-  
+  const [ganador, setGanador] = useState<"white" | "black" | null>(null);
+  const [helpVisible, setHelpVisible] = useState(false);
+  const { showAd } = useGameEndAd();
+
   const { puntaje, restar, setTimer, sumar } = usePuntaje();
-  
   const puntajeRef = useRef(puntaje);
   const startTime = useRef<number | null>(null);
-  const interval = useRef<number | null>(null);
+  const interval = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HelpHeaderButton onPress={() => setHelpVisible(true)} />,
+    });
+  }, [navigation]);
 
   useEffect(() => {
     puntajeRef.current = puntaje;
   }, [puntaje]);
 
   useEffect(() => {
-    if(turno === null) return;
+    if (turno === null) return;
 
     startTime.current = Date.now();
-
     interval.current = setInterval(() => {
-      const elapsed = Date.now() - (startTime.current ?? 0);
+      const elapsed = (Date.now() - (startTime.current ?? 0)) / 1000;
+      const idx = turno === "white" ? 0 : 1;
 
-      if (turno === "white") {
-        if(puntajeRef.current["ajedrez"][0] <= 0) {
-          if (interval.current) clearInterval(interval.current);
-          reset();
-          return;
-        }
-        restar("ajedrez", Math.min(elapsed/1000, puntajeRef.current["ajedrez"][0]), 0)
-      } else {
-        if(puntajeRef.current["ajedrez"][1] <= 0) {
-          if (interval.current) clearInterval(interval.current);
-          reset();
-          return;
-        }
-        restar("ajedrez", Math.min(elapsed/1000, puntajeRef.current["ajedrez"][0]), 1)
+      if (puntajeRef.current.ajedrez[idx] <= 0) {
+        clearInterval(interval.current!);
+        setTurno(null);
+        setGanador(turno === "white" ? "black" : "white");
+        return;
       }
+      restar("ajedrez", Math.min(elapsed, puntajeRef.current.ajedrez[idx]), idx);
       startTime.current = Date.now();
     }, 100);
 
-    return () => {
-      if (interval.current) clearInterval(interval.current);
-    };
+    return () => { if (interval.current) clearInterval(interval.current); };
   }, [turno]);
 
-  const cambiarJugador = () => {
-    setJugador(!jugador);
+  const presionarBlancas = () => {
+    if (turno === "white") {
+      sumar("ajedrez", Number(modo), 0);
+      setTurno("black");
+    }
+  };
 
-    if(turno === null) {
+  const presionarNegras = () => {
+    if (turno === null) {
       setTimer(0, tiempo);
       setTimer(1, tiempo);
       setTurno("white");
-    }else if(turno === "white") {
-      sumar("ajedrez", Number(modo), 0);
-      setTurno("black");
-    }else if(turno === "black") {
+    } else if (turno === "black") {
       sumar("ajedrez", Number(modo), 1);
       setTurno("white");
     }
-  }
+  };
 
   const reset = () => {
+    showAd();
+    if (interval.current) clearInterval(interval.current);
     setTurno(null);
     setTimer(0, tiempo);
     setTimer(1, tiempo);
-    setJugador(false);
-  }
+    setGanador(null);
+    setModo("0");
+  };
 
   const cambiarTimer = () => {
-    if(tiempo === 30) {
-      setTiempo(60);
-    }else if(tiempo === 60) {
-      setTiempo(120);
-    }else if(tiempo === 120) {
-      setTiempo(180);
-    }else if(tiempo === 180) {
-      setTiempo(300);
-    }else if(tiempo === 300) {
-      setTiempo(600);
-    }else if(tiempo === 600) {
-      setTiempo(900);
-    }else if(tiempo === 900) {
-      setTiempo(1800);
-    }else if(tiempo === 1800) {
-      setTiempo(30);
-    }
-  }
+    const idx = TIMER_PRESETS.indexOf(tiempo);
+    setTiempo(TIMER_PRESETS[(idx + 1) % TIMER_PRESETS.length]);
+  };
 
   function formatTime(sec: number) {
     const m = Math.floor(sec / 60);
     const s = Math.floor(sec % 60);
     const ms = Math.floor((sec % 1) * 100);
-
     return {
       main: `${m}:${s.toString().padStart(2, "0")}`,
-      ms: m === 0 ? `.${ms.toString().padStart(2, "0")}` : ""
+      ms: m === 0 ? `.${ms.toString().padStart(2, "0")}` : "",
     };
   }
 
-  const t0 = formatTime(puntaje["ajedrez"][0]);
-  const t1 = formatTime(puntaje["ajedrez"][1]);
+  const t0 = formatTime(puntaje.ajedrez[0]);
+  const t1 = formatTime(puntaje.ajedrez[1]);
 
-  return (
-    <>
-      <SafeAreaView 
+  const renderSection = (player: "white" | "black") => {
+    const isWhite = player === "white";
+    const t = isWhite ? t0 : t1;
+    const isMyTurn = turno === player;
+    // Black button is active when game not started OR black's turn
+    const buttonDisabled = isWhite ? turno !== "white" : turno === "white";
+    const buttonColor = isWhite
+      ? turno === "white" ? theme.stop : theme.finish
+      : turno !== "white" ? theme.stop : theme.finish;
+    const timerDisplay = turno === null ? formatTime(tiempo) : t;
+
+    return (
+      <View
         style={{
-          ...ajedrez.contenedor,
-          backgroundColor: theme.background 
+          flex: 1,
+          flexDirection: "row",
+          backgroundColor: isMyTurn ? theme.primary + "28" : "transparent",
+          borderRadius: 12,
+          overflow: "hidden",
+          marginVertical: 4,
+        }}
+      >
+        {/* Timer area — Pressable has NO transform, inner View rotates content */}
+        <Pressable
+          onPress={turno === null ? cambiarTimer : undefined}
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          {/* Rotating this View (not a Pressable) is safe — touch area stays correct */}
+          <View style={{ transform: [{ rotate: "-90deg" }], alignItems: "center" }}>
+            <Text
+              style={{
+                color: isMyTurn ? theme.text : theme.inactiveText,
+                fontSize: 18,
+                fontWeight: "600",
+                marginBottom: 4,
+              }}
+              allowFontScaling={false}
+            >
+              {isWhite ? "♔ Blancas" : "♚ Negras"}
+            </Text>
+            <Text
+              style={{
+                color: theme.text,
+                fontSize: 64,
+                fontVariant: ["tabular-nums"],
+                fontWeight: "600",
+              }}
+              allowFontScaling={false}
+            >
+              {timerDisplay.main}
+              {timerDisplay.ms
+                ? <Text style={{ fontSize: 36 }}>{timerDisplay.ms}</Text>
+                : null}
+            </Text>
+          </View>
+        </Pressable>
+
+        {/* Parar button — Pressable has NO transform, only the text inside rotates */}
+        <Pressable
+          onPress={isWhite ? presionarBlancas : presionarNegras}
+          onLongPress={reset}
+          disabled={buttonDisabled}
+          style={{
+            width: 110,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: buttonColor,
+            opacity: buttonDisabled ? 0.5 : 1,
+
           }}
+          android_ripple={{ color: "rgba(255,255,255,0.3)", borderless: false }}
         >
           <View
             style={{
-              ...ajedrez.filas,
+              transform: [{ rotate: "-90deg" }],
+              width: 150,
             }}
+            allowFontScaling={false}
           >
-            <View
+            <Text
               style={{
-              ...ajedrez.contenedor_timer,
-              }}
-            >
-              {
-                turno === null ?
-                <Pressable onPress={() => cambiarTimer()}>
-                  <Text
-                    style={{
-                      color: theme.text,
-                      ...ajedrez.texto_timer,
-                    }}
-                    allowFontScaling={false}
-                  >
-                    {formatTime(tiempo).main}
-                  </Text>
-                </Pressable> :
-                <Text
-                  style={{
-                    color: theme.text,
-                    ...ajedrez.texto_timer
-                  }}
-                  allowFontScaling={false}
-                >
-                  {t0.main}
-                  {t0.ms && (
-                    <Text style={ajedrez.texto_ms}>
-                      {t0.ms}
-                    </Text>
-                  )}
-                </Text>
-              }
-            </View>
-            <View
-              style={{
-                ...ajedrez.contenedor_botones,
+                color: "#fff",
+                fontSize: 56,
+                fontWeight: "bold",
               }}>
-              <Pressable
-                style={{
-                  ...ajedrez.botones,
-                  backgroundColor: jugador ? theme.stop : theme.finish
-                }}
-                onPress={() => cambiarJugador()}
-                onLongPress={() => reset()}
-                disabled={!jugador}
-              >
-                <Text
-                  style={{
-                    ...ajedrez.botones_texto,
-                    color: theme.text
-                  }}
-                  allowFontScaling={false}
-                >
-                  Parar
-                </Text>
-              </Pressable>
+              Parar
+            </Text>
+          </View>
+        </Pressable>
+      </View>
+    );
+  };
+
+  return (
+    <>
+      <SafeAreaView
+        edges={["bottom"]}
+        style={{ flex: 1, flexDirection: "column", backgroundColor: theme.background, padding: 16 }}
+      >
+        {renderSection("white")}
+
+        <View style={{ height: 110, justifyContent: "center", alignItems: "center", transform: [{ rotate: "-90deg" }] }}>
+          {turno !== null ? (
+            <View style={{ alignItems: "center" }}>
+              <Text style={{ color: theme.text, fontSize: 46 }} allowFontScaling={false}>
+                {turno === "white" ? "♔" : "♚"}
+              </Text>
+              <Text style={{ color: theme.inactiveText, fontSize: 24, marginTop: 4 }} allowFontScaling={false}>
+                {modo === "0" ? "sin inc." : `+${modo}s`}
+              </Text>
             </View>
-          </View>
-
-          <View
-            style={{
-              ...ajedrez.filas_pequeña,
-            }}
-          >
-            {
-              turno === null ?
-                (Platform.OS === "ios" ?
-                <Picker
-                  selectedValue={modo}
-                  onValueChange={(itemValue) => setModo(itemValue)}
-                  style={{
-                    color: theme.text,
-                    backgroundColor: theme.secondary,
-                    ...ajedrez.picker,
-                  }}
-                  mode="dropdown"
-                >
-                    <Picker.Item label="0" value="0" />
-                    <Picker.Item label="+1" value="1" />
-                    <Picker.Item label="+2" value="2" />
-                    <Picker.Item label="+3" value="3" />
-                    <Picker.Item label="+5" value="5" />
-                    <Picker.Item label="+10" value="10" />
-                </Picker>
-                :
-                <View
-                  style={{
-                    ...ajedrez.picker,
-                  }}
-                >
-                  <WheelPickerExpo
-                    onChange={({ item }) => setModo(item .value)}
-                    items={[
-                      {label:"0", value:"0"},
-                      {label:"+1", value:"1"},
-                      {label:"+2", value:"2"},
-                      {label:"+3", value:"3"},
-                      {label:"+5", value:"5"},
-                      {label:"+10", value:"10"}
-                    ]}
-                  />
-                </View>)
-                :
-                <Text
-                  style={{
-                    color: theme.text,
-                    ...ajedrez.picker_texto,
-                    backgroundColor: theme.secondary,
-                  }}
-                  allowFontScaling={false}
-                >
-                  {modo}
-                </Text>
-            }
-          </View>
-
-          <View
-            style={{
-              ...ajedrez.filas,
-            }}
-          >
-            <View
-              style={{
-              ...ajedrez.contenedor_timer,
-              }}
+          ) : Platform.OS === "ios" ? (
+            <Picker
+              selectedValue={modo}
+              onValueChange={(val) => setModo(val)}
+              style={{ color: theme.text, backgroundColor: theme.secondary, width: 100, borderRadius: 20 }}
+              mode="dropdown"
             >
-              {
-                turno === null ?
-                <Pressable onPress={() => cambiarTimer()}>
-                  <Text
-                    style={{
-                      color: theme.text,
-                      ...ajedrez.texto_timer,
-                    }}
-                    allowFontScaling={false}
-                  >
-                    {formatTime(tiempo).main}
+              {INCREMENTOS.map(({ label, value }) => (
+                <Picker.Item key={value} label={label} value={value} />
+              ))}
+            </Picker>
+          ) : (
+            <View style={{ backgroundColor: theme.secondary, borderRadius: 20 }}>
+              <WheelPickerExpo
+                onChange={({ item }) => setModo(item.value)}
+                backgroundColor={theme.secondary}
+                selectedStyle={{ borderColor: theme.primary, borderWidth: 2 }}
+                width={100}
+                renderItem={({ label, textAlign }) => (
+                  <Text style={{ fontSize: 20, color: theme.text, textAlign, fontWeight: "600" }}>
+                    {label}
                   </Text>
-                </Pressable> :
-                <Text
-                  style={{
-                    color: theme.text,
-                    ...ajedrez.texto_timer
-                  }}
-                  allowFontScaling={false}
-                >
-                  {t1.main}
-                  {t1.ms && (
-                    <Text style={ajedrez.texto_ms}>
-                      {t1.ms}
-                    </Text>
-                  )}
-                </Text>
-              }
+                )}
+                items={INCREMENTOS}
+              />
             </View>
-            <View
-              style={{
-                ...ajedrez.contenedor_botones,
-              }}>
-              <Pressable
-                style={{
-                  ...ajedrez.botones,
-                  backgroundColor: jugador ? theme.finish :  theme.stop
-                }}
-                onPress={() => cambiarJugador()}
-                onLongPress={() => reset()}
-                disabled={jugador}
-              >
-                <Text
-                  style={{
-                    ...ajedrez.botones_texto,
-                    color: theme.text
-                  }}
-                  allowFontScaling={false}
-                >
-                  Parar
-                </Text>
-              </Pressable>
-            </View>
-          </View>
+          )}
+        </View>
+
+        {renderSection("black")}
+
+        <HelpModal
+          visible={helpVisible}
+          onClose={() => setHelpVisible(false)}
+          items={[
+            { titulo: "Elegir tiempo", descripcion: "Con la partida sin iniciar, tocá en el área del reloj para cambiar el tiempo. Cicla entre: 30s, 1', 2', 3', 5', 10', 15' y 30'." },
+            { titulo: "Incremento", descripcion: "Usá el selector del centro para elegir el incremento: sin incremento (0) o los segundos que se suman al ceder el turno (+1, +2, +3, +5, +10)." },
+            { titulo: "Resetear partida", descripcion: "Mantené presionado el botón Parar para resetear la partida y volver al estado inicial." },
+          ]}
+        />
       </SafeAreaView>
+
+      <Modal visible={ganador !== null} animationType="fade" transparent>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <View
+            style={{
+              width: "80%",
+              backgroundColor: theme.background,
+              padding: 24,
+              borderRadius: 14,
+              elevation: 8,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.25,
+              shadowRadius: 8,
+            }}
+          >
+            <Text style={{ color: theme.text, fontSize: 22, fontWeight: "700", marginBottom: 8 }} allowFontScaling={false}>
+              ¡Tiempo agotado!
+            </Text>
+            <Text style={{ color: theme.text, fontSize: 16, marginBottom: 24 }} allowFontScaling={false}>
+              {ganador === "white" ? "Ganan las Blancas 🏆" : "Ganan las Negras 🏆"}
+            </Text>
+            <Pressable
+              onPress={reset}
+              style={{ alignSelf: "flex-end", paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8, backgroundColor: theme.primary }}
+              android_ripple={{ color: "rgba(255,255,255,0.2)", borderless: false }}
+            >
+              <Text style={{ color: theme.text, fontWeight: "600", fontSize: 15 }} allowFontScaling={false}>
+                Reiniciar
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };

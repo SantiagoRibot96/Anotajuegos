@@ -8,7 +8,8 @@ export const TabBar = StyleSheet.create({
     },
     tabBarStyle: {
         height: 70,
-        paddingTop: 8
+        paddingTop: 8,
+        elevation: 8,
     },
     tabBarLabelStyle: {
         fontSize: 16,
