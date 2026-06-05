@@ -100,18 +100,17 @@ const Truco = () => {
           onLongPress={() => reset()}
           android_ripple={{ color: "rgba(255,255,255,0.2)", borderless: false }}
         >
-          <TextInput
-            key={resetKey}
+          <Text
             style={{
               color: theme.text,
               textAlign: "center",
               fontSize: 30,
               fontWeight: "bold",
             }}
-            placeholder={nombreJugador[0]}
-            onEndEditing={(e) => anotarJugador(0, e.nativeEvent.text)}
             allowFontScaling={false}
-          />
+          >
+            Nosotros
+          </Text>
           <Text
             style={{
               color: theme.text,
@@ -163,20 +162,20 @@ const Truco = () => {
             backgroundColor: theme.secondary,
           }}
           disabled={puntaje.truco[1] === 0 || erasingPlayer !== null}
+          onLongPress={() => reset()}
           android_ripple={{ color: "rgba(255,255,255,0.2)", borderless: false }}
         >
-          <TextInput
-            key={resetKey}
+          <Text
             style={{
               color: theme.text,
               textAlign: "center",
               fontSize: 30,
               fontWeight: "bold",
             }}
-            placeholder={nombreJugador[1]}
-            onEndEditing={(e) => anotarJugador(1, e.nativeEvent.text)}
             allowFontScaling={false}
-          />
+          >
+            Ellos
+          </Text>
           <Text
             style={{
               color: theme.text,

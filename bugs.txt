@@ -1,0 +1,7 @@
+https://play.google.com/store/apps/details?id=com.anotajuegos
+
+- En el modal de truco sigue diciendo presionar el nombre cuando en realidad hay que presionar el puntaje para resetear.
+	- Agregar la parte de longpress en los nombres
+	- Fijarse que aparentemente el longpress funciona solo en el lado izquierdo
+	- Al escribir el nombre de los equipos el teclado tapa donde estas escribiendo no dejandote leer lo que escribis. Probar como se ve pasando los nombres a la parte superior
+

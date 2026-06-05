@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "125005610525",
+    "project_id": "anotajuegos",
+    "storage_bucket": "anotajuegos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125005610525:android:9d0c3d6a7407b236c8d0f4",
+        "android_client_info": {
+          "package_name": "com.anotajuegos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZeNoFuijLtMft8y7I538v8M6Bch4_jbo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
